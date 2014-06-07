@@ -1,0 +1,21 @@
+main: com.eveningmc.tpm.TogglePM
+name: TogglePM
+version: 1.0.0
+authors: [EveningMC, Eveninglight, Lexucraft]
+commands:
+  tpm:
+    description: Toggle Private Messages!
+    usage: /<command>
+  msg:
+    description: Send A Player A Message!
+    usage: /<command> <player> <args>
+    aliases: [m, t, w, tell, to, message, whisper]
+    
+permissions:
+  togglepm.*:
+    default: op
+    description: All permissions!
+    children:
+      togglepm.toggle: true
+      togglepm.message: true
+      togglepm.bypass: true

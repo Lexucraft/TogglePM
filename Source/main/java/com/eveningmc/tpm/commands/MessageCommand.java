@@ -4,9 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import com.eveningmc.lcore.Lexucraft_Core;
 import com.eveningmc.lcore.utils.Message;
 import com.eveningmc.tpm.TogglePM;
 
@@ -21,10 +19,8 @@ public class MessageCommand implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command command, String label, String args[])
     {
     	
-		if(sender.hasPermission("lcore.message"))
+		if(sender.hasPermission("togglepm.message"))
 		{
-			
-			Player player = Bukkit.getPlayerExact(args[0]);
 			
 			StringBuilder message = new StringBuilder();
 
@@ -36,29 +32,34 @@ public class MessageCommand implements CommandExecutor
                 
             }
 			
-			if(args[0].equalsIgnoreCase(""))
+			if(args.length <= 1)
 			{
 				
-				sender.sendMessage(Message.format("&9LCore > &cYou have not provided enough arguments!"));
+				sender.sendMessage(Message.format("&9TogglePM > &cYou have not provided enough arguments!"));
 				
-			} else if(args[0].equalsIgnoreCase(player.getName()))
+			} else if(args[0].equalsIgnoreCase(Bukkit.getPlayerExact(args[0]).getName()))
 			{
 				
-				if(TogglePM.toggle.contains(player.getName()))
+				if(TogglePM.toggle.contains(Bukkit.getPlayerExact(args[0]).getName()) && !sender.hasPermission("togglepm.bypass"))
 				{
 					
-					sender.sendMessage(Message.format("&9LCore > &cThis player does not have messages enabled!"));
+					sender.sendMessage(Message.format("&9TogglePM > &cThis player does not have messages enabled!"));
 					
 				} else
 				{
 					
 					sender.sendMessage(Message.format("&9Me" + " > " + sender.getName() +"&7 " + Message.toString(args)));
-					player.sendMessage(Message.format("&9" + player.getName() + " > Me&7 " + Message.toString(args)));
+					Bukkit.getPlayerExact(args[0]).sendMessage(Message.format("&9" + Bukkit.getPlayerExact(args[0]).getName() + " > Me&7 " + Message.toString(args)));
 					return true;
 					
 				}
 				
 			}
+			
+		} else
+		{
+			
+			sender.sendMessage(Message.format("&9TogglePM > &cYou do not have the required permissions for this command!"));
 			
 		}
 		
